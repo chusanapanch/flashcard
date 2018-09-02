@@ -18,7 +18,8 @@
   <p id = "correct"></p>
   <p id = "key"></p>
   <p id = "hiddenKey" hidden></p>
-  <button type="button" id = "next" onclick = "random()">Random again</button>
+  <p id = "hiddenNumber" hidden></p>
+  <button type="button" id = "next" onclick = "random()">Next</button>
 
   <script>
 var list = ["crile hemostat", "kelly clamp", "oschner clamp",
@@ -32,26 +33,29 @@ random();
 
 function random() {
 
-var random = Math.floor(Math.random() * list.length);
-var name = list[random]
-list.splice(random,1)
-document.getElementById("image").src = name + ".jpg"
-document.getElementById("hiddenKey").innerHTML = name
-document.getElementById("correct").innerHTML = "";
-document.getElementById("key").innerHTML = "";
-document.getElementById("answer").value = ""}
+  var random = Math.floor(Math.random() * list.length);
+  var name = list[random]
 
-function check() {
-var correct
-var key = document.getElementById("hiddenKey").innerHTML
-var answer = document.getElementById("answer").value
+  document.getElementById("image").src = name + ".jpg"
+  document.getElementById("hiddenKey").innerHTML = name
+  document.getElementById("hiddenNumber").innerHTML = random
+  document.getElementById("correct").innerHTML = "";
+  document.getElementById("key").innerHTML = "";
+  document.getElementById("answer").value = ""}
 
-answer = answer.toLowerCase()
+  function check() {
+  var correct
+  var key = document.getElementById("hiddenKey").innerHTML
+  var answer = document.getElementById("answer").value
+  var remove = document.getElementById("hiddenNumber").innerHTML
+  var msg
 
-if (answer == key) {correct = "RIGHT!"}
-if (answer != key) {correct = "WRONG!"}
-  document.getElementById("correct").innerHTML = correct;
-  document.getElementById("key").innerHTML = "The correct answer is " + key;
+  answer = answer.toLowerCase()
+
+  if (answer == key) {correct = "RIGHT! "; list.splice(remove,1); msg = "The " + key + " has been removed from the list"}
+  if (answer != key) {correct = "WRONG!"; msg = "The correct answer is " + key}
+    document.getElementById("correct").innerHTML = correct;
+    document.getElementById("key").innerHTML = msg;
 }
 
   </script>
