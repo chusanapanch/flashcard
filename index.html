@@ -1,106 +1,60 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>BRIDGE CALCULATOR</title>
-  </head>
-  <body>
-    <h2>BRIDGE CALCULATOR</h2>
-    Contract and result
-    <br>
-    ex. 3ntxx+1, 4H=, 2S-3
-    <br>
-    <input type="text" id="input" onchange="cal()" value="">
-    <br>
-    <br>
-    <div id=vulnerability>
-      <input type= "checkbox" id="vul" onchange="cal()" onclick="colorchange()"> Vulnerability </div>
-    <p id="output"> </p>
-    <script> //SCORE CALCULATOR
-        function cal() {
-          var input = document.getElementById("input").value;
-          var vul = document.getElementById("vul").checked;
 
-          var lowerinput = input.toLowerCase();
+<head>
+  <title>Surgical instruments</title>
+</head>
 
-          var array = lowerinput.split("");
+<body>
 
-          if (array[1] == "n" && array[2] == "t")
-          {array.splice(2, 1);};
+  <h3>Flash card : Surgical instruments</h3>
+  <br>
+  <img id = image width="300px">
+  <br>
+  <br>
+  <br>
+  <label for="answer">Answer</label> <input id = answer type = "text">
+  <button type="button" id = "sent" onclick = "check()">Send</button>
+  <p id = "correct"></p>
+  <p id = "key"></p>
+  <p id = "hiddenKey" hidden></p>
+  <button type="button" id = "next" onclick = "random()">Random again</button>
 
-          if (array[2] == "x" && array[3] == "x")
-          {array.splice(3, 1);array[2] = 2}
-          else if (array[2] == "x"){array[2] = 1}
-          else {array.splice(2, 0, 0)};
+  <script>
+var list = ["crile hemostat", "kelly clamp", "oschner clamp",
+"towel clip", "mayo scissors", "metzenbaum scissors", "sponge forceps",
+"allis forceps", "babcock forceps", "thumb forceps", "adson forceps",
+"lahey forceps", "army navy retractor", "senn retractor", "richardson retractor",
+"deaver retractor", "sweetheart retractor", "malleable retractor",
+"weitlaner retractor", "gelpi retractor"];
 
-          if(array[3] == "="){array[3] = 0};
-          if(array[3] == "+"){array.splice(3, 1)};
+random();
 
-          if(array[3] == "-" && array.length == 5 ){array.splice(3, 1); array[3] = array[3]*(-1)};
-          if(array[3] == "-" && array.length == 6 ){array.splice(3, 2); array[3] = -10 + array[3]*(-1)};
+function random() {
 
-          if(array.length == 4){array.push(vul)}
-          else error
+var random = Math.floor(Math.random() * list.length);
+var name = list[random]
+list.splice(random,1)
+document.getElementById("image").src = name + ".jpg"
+document.getElementById("hiddenKey").innerHTML = name
+document.getElementById("correct").innerHTML = "";
+document.getElementById("key").innerHTML = "";
+document.getElementById("answer").value = ""}
 
-          //(level,suit,double,result,vulnerability)
-          var score = 0
-          var lv = array[0]
-          var suit = array[1]
-          var db = array[2]
-          var res = array[3]
-          var vul = array[4]
+function check() {
+var correct
+var key = document.getElementById("hiddenKey").innerHTML
+var answer = document.getElementById("answer").value
 
-          //db 012 to 124
-          if (db > 0){db = db*2}
-          if (db == 0){db = 1}
+answer = answer.toLowerCase()
 
-          //Down
-          if(res < 0 && db == 1 && vul == false){score = 50 * res};
-          if(res < 0 && db == 1 && vul == true){score = 100 * res}
-          if(res < 0 && db > 1 && vul == false){score = score - 100};
-          if(res < -1 && db > 1 && vul == false){score = score + 200 * (res+1)};
-          if(res < -3 && db > 1 && vul == false){score = score + 300 * (res+3)};
-          if(res < 0 && db > 1 && vul == true){score = score - 200};
-          if(res < -1 && db > 1 && vul == true){score = score + 300 * (res+1)};
-          if(res < 0 && db == 4){score = score*2};
+if (answer == key) {correct = "RIGHT!"}
+if (answer != key) {correct = "WRONG!"}
+  document.getElementById("correct").innerHTML = correct;
+  document.getElementById("key").innerHTML = "The correct answer is " + key;
+}
 
-          //Undouble
-          if (res > -1 && (suit == "c" || suit == "d") && db == 1){score = 50 + lv*20 + res*20};
-          if (res > -1 && (suit == "s" || suit == "h") && db == 1){score = 50 + lv*30 + res*30};
-          if (res > -1 && suit == "n" && db == 1){score = 60 + lv*30 + res*30};
+  </script>
 
-          //Double & Redouble
-          if (res > -1 && (suit == "c" || suit == "d") && db > 1 && vul == false){score = db * ((50+ 20*lv) + res*(50))}
-          if (res > -1 && (suit == "s" || suit == "h") && db > 1 && vul == false){score = db * ((50+ 30*lv) + res*(50))}
-          if (res > -1 && suit == "n" && db > 1 && vul == false){score = db * ((60+ 30*lv) + res*(50))}
-          if (res > -1 && (suit == "c" || suit == "d") && db > 1 && vul == true){score = db * ((50+ 20*lv) + res*(100))}
-          if (res > -1 && (suit == "s" || suit == "h") && db > 1 && vul == true){score = db * ((50+ 30*lv) + res*(100))}
-          if (res > -1 && suit == "n" && db > 1 && vul == true){score = db * ((60+ 30*lv) + res*(100))}
-          if (res > -1 && db == 4){score = score - 50}
-
-          //Bonus game
-          if (res > -1 && lv*db > 4 && (suit == "c" || suit == "d") && vul == false){score = score + 250};
-          if (res > -1 && lv*db > 3 && (suit == "s" || suit == "h")&& vul == false){score = score + 250};
-          if (res > -1 && lv*db > 2 && suit == "n" && vul == false){score = score + 250};
-          if (res > -1 && lv*db > 4 && (suit == "c" || suit == "d") && vul == true){score = score + 450};
-          if (res > -1 && lv*db > 3 && (suit == "s" || suit == "h") && vul == true){score = score + 450};
-          if (res > -1 && lv*db > 2 && suit == "n" && vul == true){score = score + 450};
-
-          //Bonus slam
-
-          if (res > -1 && lv > 5 && vul == false){score = score + 500};
-          if (res > -1 && lv > 5 && vul == true){score = score + 750};
-          if (res > -1 && lv > 6 && vul == false){score = score + 500};
-          if (res > -1 && lv > 6 && vul == true){score = score + 750};
-
-          document.getElementById("output").innerHTML = "Score = " + score
-        }
-    </script>
-    <script> //COLOR CHANGE
-      document.getElementById("vulnerability").style.color= "green"
-      function colorchange()
-      {if (document.getElementById("vulnerability").style.color == "green")
-      {document.getElementById("vulnerability").style.color = "red"}
-      else document.getElementById("vulnerability").style.color = "green"}
-    </script>
-  </body>
+</body>
 </html>
