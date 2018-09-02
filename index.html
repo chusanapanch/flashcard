@@ -14,7 +14,7 @@
   <br>
   <br>
   <label for="answer">Answer</label> <input id = answer type = "text">
-  <button type="button" id = "sent" onclick = "check()">Send</button>
+  <button type="button" id = "sent" onclick = "check()">Check</button>
   <p id = "correct"></p>
   <p id = "key"></p>
   <p id = "hiddenKey" hidden></p>
@@ -22,12 +22,16 @@
   <button type="button" id = "next" onclick = "random()">Next</button>
 
   <script>
+
 var list = ["crile hemostat", "kelly clamp", "oschner clamp",
-"towel clip", "mayo scissors", "metzenbaum scissors", "sponge forceps",
-"allis forceps", "babcock forceps", "thumb forceps", "adson forceps",
-"lahey forceps", "army navy retractor", "senn retractor", "richardson retractor",
-"deaver retractor", "sweetheart retractor", "malleable retractor",
-"weitlaner retractor", "gelpi retractor"];
+  "towel clip", "mayo scissors", "metzenbaum scissors", "sponge forceps",
+  "allis forceps", "babcock forceps", "thumb forceps", "adson forceps",
+  "lahey forceps", "army navy retractor", "senn retractor", "richardson retractor",
+  "deaver retractor", "sweetheart retractor", "malleable retractor",
+  "weitlaner retractor", "gelpi retractor", "mosquito forceps"];
+
+//empty list display "CONGRATULATION ! you have completed all flashcards in this category"
+//remove check button when clicked
 
 random();
 
@@ -41,9 +45,10 @@ function random() {
   document.getElementById("hiddenNumber").innerHTML = random
   document.getElementById("correct").innerHTML = "";
   document.getElementById("key").innerHTML = "";
-  document.getElementById("answer").value = ""}
+  document.getElementById("answer").value = ""
+  document.getElementById("sent").style.display = "initial"}
 
-  function check() {
+function check() {
   var correct
   var key = document.getElementById("hiddenKey").innerHTML
   var answer = document.getElementById("answer").value
@@ -55,7 +60,8 @@ function random() {
   if (answer == key) {correct = "RIGHT! "; list.splice(remove,1); msg = "The " + key + " has been removed from the list"}
   if (answer != key) {correct = "WRONG!"; msg = "The correct answer is " + key}
     document.getElementById("correct").innerHTML = correct;
-    document.getElementById("key").innerHTML = msg;
+    document.getElementById("key").innerHTML = msg
+    document.getElementById("sent").style.display = "none";
 }
 
   </script>
