@@ -17,6 +17,7 @@
   <button type="button" id = "sent" onclick = "check()">Check</button>
   <p id = "correct"></p>
   <p id = "key"></p>
+  <p id = "left"></p>
   <p id = "hiddenKey" hidden></p>
   <p id = "hiddenNumber" hidden></p>
   <button type="button" id = "next" onclick = "random()">Next</button>
@@ -30,8 +31,8 @@ var list = ["crile hemostat", "kelly clamp", "oschner clamp",
   "deaver retractor", "sweetheart retractor", "malleable retractor",
   "weitlaner retractor", "gelpi retractor", "mosquito forceps"];
 
-//empty list display "CONGRATULATION ! you have completed all flashcards in this category"
-//remove check button when clicked
+var questionLeft = list.length
+document.getElementById("left").innerHTML = "Remaining flash card = " + questionLeft
 
 random();
 
@@ -61,7 +62,13 @@ function check() {
   if (answer != key) {correct = "WRONG!"; msg = "The correct answer is " + key}
     document.getElementById("correct").innerHTML = correct;
     document.getElementById("key").innerHTML = msg
-    document.getElementById("sent").style.display = "none";
+    document.getElementById("sent").style.display = "none"
+
+    questionLeft = list.length
+
+  if (questionLeft = "0"){document.getElementById("next").style.display = "none"};
+
+    document.getElementById("left").innerHTML = "Remaining flashcards = " + questionLeft;
 }
 
   </script>
